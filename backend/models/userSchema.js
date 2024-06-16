@@ -1,5 +1,6 @@
-import mongoose from "../config/glimdatabase";
 import bcrypt from "bcrypt";
+
+import mongoose from "../config/glimdatabase";
 
 const { Schema, model } = mongoose;
 

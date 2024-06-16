@@ -164,8 +164,72 @@ export const useUserStore = create(
         }
       },
 
+      /*  updateUser: async (userId, updatedFields, accessToken) => {
+        set({ loadingUser: true });
+        const URL = `https://project-final-glim.onrender.com/users/profile/${userId}`;
+        try {
+          const response = await fetch(URL, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: accessToken,
+            },
+            body: JSON.stringify(updatedFields),
+          });
+
+          if (!response.ok) {
+            const errorText = await response.text(); // Get the error message
+            throw new Error(errorText);
+          }
+          const data = await response.json();
+          console.log(data);
+          set({
+            user: data.updatedUser,
+            loggedIn: true,
+          });
+        } catch (error) {
+          console.error("error:", error);
+          set({ error: error });
+        } finally {
+          set({ loadingUser: false });
+        }
+      }, */
+
+      /* updateUser: async (userId, accessToken, updatedFields) => {
+        set({ loadingUser: true });
+        const URL = `https://project-final-glim.onrender.com/users/profile/${userId}`;
+        try {
+          const response = await fetch(URL, {
+            method: "PATCH",
+            body: JSON.stringify(updatedFields),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: accessToken,
+            },
+          });
+          if (!response.ok) {
+            const errorText = await response.text(); // Get the error message
+            throw new Error(errorText);
+          }
+          const data = await response.json();
+          console.log(data);
+          // Dispatch the update to the store
+          set({
+            user: {
+              ...get().user,
+              ...updatedFields,
+            },
+          });
+        } catch (error) {
+          console.error("error updating user:", error);
+          set({ error: error });
+        } finally {
+          set({ loadingUser: false });
+        }
+      }, */
+
       updateUser: async (userId, accessToken, updatedFields) => {
-        /* set({ loadingUser: true }); */
+        set({ loadingUser: true });
         const URL = `https://project-final-glim.onrender.com/users/profile/${userId}`;
         console.log("Updated Fields", updatedFields);
         try {
@@ -176,14 +240,16 @@ export const useUserStore = create(
               firstname: updatedFields.firstname,
               lastname: updatedFields.lastname,
               email: updatedFields.email,
-              /* street: updatedFields.street, */
-              /*postalCode: updatedFields.postalCode,
-              city: updatedFields.city,
-              country: updatedFields.country,
+              address: {
+                street: updatedFields.street,
+                postalCode: updatedFields.postalCode,
+                city: updatedFields.city,
+                country: updatedFields.country,
+              },
               allergies: updatedFields.allergies,
               pros: updatedFields.pros,
               moisture: updatedFields.moisture,
-              skin: updatedFields.skin, */
+              skin: updatedFields.skin,
             }),
             headers: {
               "Content-Type": "application/json",
@@ -202,19 +268,19 @@ export const useUserStore = create(
           set({
             user: data.updatedUser,
           });
-          /* set({
+          set({
             userId: data.updatedUser.id,
             accessToken: data.updateUser.accessToken,
-          }); */
-          /*  await get().fetchUser(
+          });
+          await get().fetchUser(
             data.updateUser.id,
             data.updateUser.accessToken
-          ); */
+          );
         } catch (error) {
           console.error("error updating user:", error);
           set({ error: error });
         } finally {
-          /*  set({ loadingUser: false }); */
+          set({ loadingUser: false });
         }
       },
 

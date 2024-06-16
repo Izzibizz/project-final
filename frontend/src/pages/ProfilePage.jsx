@@ -25,42 +25,7 @@ export const ProfilePage = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const [profile, setProfile] = useState(user.user);
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      const response = await fetchUser(userId);
-      if (response && response.message) {
-        setProfile(response.updatedUser);
-      }
-    };
-    if (!user) {
-      navigate("/");
-    } else {
-      fetchUserProfile();
-    }
-  }, [user, userId, fetchUser, navigate]);
-
-  // Update user profile
-  useEffect(() => {
-    if (user) {
-      updateUser(user.id, { accessToken }); // Pass the accessToken here
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (loggedOut) {
-      navigate("/");
-    }
-  }, [loggedOut, navigate]);
-
-  if (!profile) {
-    return <NotFound reason="profile" />;
-  }
-
-  console.log("Profile:", userId);
-
   const [isEditing, setIsEditing] = useState(false);
-
   const [inputValues, setInputValues] = useState({
     firstname: profile.firstname,
     lastname: profile.lastname,
@@ -75,6 +40,39 @@ export const ProfilePage = () => {
     allergies: profile.allergies,
     pros: profile.pros,
   });
+
+  /* useEffect(() => {
+    const fetchUserProfile = async () => {
+      const response = await fetchUser(userId);
+      if (response && response.message) {
+        setProfile(response.updatedUser);
+      }
+    };
+    if (!user) {
+      navigate("/");
+    } else {
+      fetchUserProfile();
+    }
+  }, [user, userId, fetchUser, navigate]); */
+
+  // Update user profile
+  /* useEffect(() => {
+    if (user) {
+      updateUser(user.id, { accessToken }); // Pass the accessToken here
+    }
+  }, [user]); */
+
+  useEffect(() => {
+    if (loggedOut) {
+      navigate("/");
+    }
+  }, [loggedOut, navigate]);
+
+  if (!profile) {
+    return <NotFound reason="profile" />;
+  }
+
+  console.log("Profile:", userId);
 
   const allergyOptions = [
     "Fragrances",
@@ -116,7 +114,7 @@ export const ProfilePage = () => {
     }
   };
 
-  const handleUpdateProfile = () => {
+  const handleUpdateProfile = async () => {
     // Filter out unchanged fields
     const updatedFields = Object.keys(inputValues).reduce((acc, key) => {
       if (inputValues[key] !== profile[key]) {
@@ -124,6 +122,8 @@ export const ProfilePage = () => {
       }
       return acc;
     }, {});
+
+    console.log("Updated Fields", updatedFields); // <--- Inspect the updatedFields object here
 
     // Make update request with updatedFields
     updateUser(userId, accessToken, updatedFields);
