@@ -172,6 +172,7 @@ export const useUserStore = create(
           const response = await fetch(URL, {
             method: "PATCH",
             body: JSON.stringify({
+              //The patch for the following three work but when reloaded the page breaks.
               firstname: updatedFields.firstname,
               lastname: updatedFields.lastname,
               email: updatedFields.email,
@@ -197,9 +198,18 @@ export const useUserStore = create(
           }
           const data = await response.json();
           console.log(data);
+          console.log(data.updatedUser);
           set({
-            user: data,
+            user: data.updatedUser,
           });
+          /* set({
+            userId: data.updatedUser.id,
+            accessToken: data.updateUser.accessToken,
+          }); */
+          /*  await get().fetchUser(
+            data.updateUser.id,
+            data.updateUser.accessToken
+          ); */
         } catch (error) {
           console.error("error updating user:", error);
           set({ error: error });

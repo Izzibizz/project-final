@@ -26,18 +26,26 @@ export const ProfilePage = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(user.user);
 
-  // useEffect(() => {
-  //   // Fetch the user profile using the userId
-  //   const fetchUserProfile = async () => {
-  //     if (!user) {
-  //       navigate("/");
-  //     } else {
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const response = await fetchUser(userId);
+      if (response && response.message) {
+        setProfile(response.updatedUser);
+      }
+    };
+    if (!user) {
+      navigate("/");
+    } else {
+      fetchUserProfile();
+    }
+  }, [user, userId, fetchUser, navigate]);
 
-  //     }
-  //   };
-
-  //   fetchUserProfile();
-  // }, [userId, fetchUser, navigate]);
+  // Update user profile
+  useEffect(() => {
+    if (user) {
+      updateUser(user.id, { accessToken }); // Pass the accessToken here
+    }
+  }, [user]);
 
   useEffect(() => {
     if (loggedOut) {

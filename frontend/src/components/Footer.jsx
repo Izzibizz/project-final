@@ -1,8 +1,9 @@
 import swoop from "/footer-swoop.svg";
 import swoop2 from "/footer-swoop2.svg";
 import dottedLine from "/soMeIcons/dottedLine.svg";
-import { Slideshow } from "./WhyUsSlideshow";
+
 import data2 from "../data.en.json";
+import { Slideshow } from "./WhyUsSlideshow";
 
 export const Footer = ({ providedData, aboveColor }) => {
   let data = null;

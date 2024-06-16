@@ -1,13 +1,11 @@
 import heroImage from "/hero-image.png";
 import swoop from "/hero-swoop.svg";
 import { NavLink } from "react-router-dom";
+
 import { useUserStore } from "../store/useUserStore";
 
-
-
 export const Hero = ({ data }) => {
-
-  const { loggedIn, user } = useUserStore();
+  const { loggedIn, user, fetchUser } = useUserStore();
 
   return (
     <section className="relative  min-h-[400px] max-h-full">
@@ -42,11 +40,14 @@ export const Hero = ({ data }) => {
             <p className="py-4 text-xl tablet:text-2xl laptop:text-4xl">
               {data.ctaTextLoggedIn}
               <span className="text-2xl tablet:text-4xl font-black">
-                {user.user.firstname}
+                {/*  {user.user.firstname} */}
               </span>
             </p>
             <NavLink to="/products">
-              <button className="bg-cta-blue px-6 py-2 rounded-full hover:bg-cta-blue-hover">
+              <button
+                onClick={fetchUser}
+                className="bg-cta-blue px-6 py-2 rounded-full hover:bg-cta-blue-hover"
+              >
                 {data.ctaButtonLoggedIn}
               </button>
             </NavLink>
