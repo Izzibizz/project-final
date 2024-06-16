@@ -236,7 +236,6 @@ export const useUserStore = create(
           const response = await fetch(URL, {
             method: "PATCH",
             body: JSON.stringify({
-              //The patch for the following three work but when reloaded the page breaks.
               firstname: updatedFields.firstname,
               lastname: updatedFields.lastname,
               email: updatedFields.email,
@@ -246,6 +245,7 @@ export const useUserStore = create(
                 city: updatedFields.city,
                 country: updatedFields.country,
               },
+              //Pros and allergies not working yet. Not clickable in profile!
               allergies: updatedFields.allergies,
               pros: updatedFields.pros,
               moisture: updatedFields.moisture,
@@ -265,17 +265,22 @@ export const useUserStore = create(
           const data = await response.json();
           console.log(data);
           console.log(data.updatedUser);
-          set({
-            user: data.updatedUser,
-          });
-          set({
-            userId: data.updatedUser.id,
-            accessToken: data.updateUser.accessToken,
-          });
-          await get().fetchUser(
-            data.updateUser.id,
-            data.updateUser.accessToken
-          );
+          if (data && data.updatedUser && data.updatedUser.accessToken) {
+            set({
+              user: data.updatedUser,
+            });
+            set({
+              userId: data.updatedUser.id,
+              accessToken: data.updatedUser.accessToken,
+            });
+            await get().fetchUser(
+              console.log("userid", data.updatedUser.id),
+              data.updatedUser.id,
+              data.updatedUser.accessToken
+            );
+          } else {
+            console.error("Error updating user:", data);
+          }
         } catch (error) {
           console.error("error updating user:", error);
           set({ error: error });
