@@ -1,12 +1,12 @@
 import { Footer } from "../components/Footer";
 import { Loading } from "../components/Loading";
-import { useUserStore } from "../store/useUserStore";
+import { NEWuseUserStore } from "../store/NEWuseUserStore";
 
 export const NotFound = ({ reason }) => {
-  const {user} = useUserStore()
+  const { user } = NEWuseUserStore();
 
-  console.log(reason)
-  console.log(user)
+  console.log(reason);
+  console.log(user);
   return (
     <div className="bg-main-red ">
       <h2 className="text-center font-heading py-40 text-text-light text-2xl">

@@ -1,18 +1,19 @@
-import { useProductsStore } from "../store/useProductsStore";
-import { useUserStore } from "../store/useUserStore";
+import swoopBottom from "/swoops/swoop-similar-bottom.svg";
+import swoopTop from "/swoops/swoop-similar-top.svg";
 import { useEffect, useState } from "react";
+import { IoIosArrowBack } from "react-icons/io";
+import { MdOutlineStar } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { Loading } from "../components/Loading";
-import { MdOutlineStar } from "react-icons/md";
-import { IoIosArrowBack } from "react-icons/io";
-import SimilarProducts from "../components/SimilarProducts";
-/* import { NotFound } from "./NotFound"; */
+
+/* import { Footer } from "./NotFound"; */
 import { Footer } from "../components/Footer";
+import { Loading } from "../components/Loading";
 import { ReviewForm } from "../components/ReviewForm";
 import { ShoppingCartPopup } from "../components/ShoppingCartPopup";
-import swoopTop from "/swoops/swoop-similar-top.svg";
-import swoopBottom from "/swoops/swoop-similar-bottom.svg";
+import SimilarProducts from "../components/SimilarProducts";
+import { NEWuseUserStore } from "../store/NEWuseUserStore";
+import { useProductsStore } from "../store/useProductsStore";
 
 export const SingleProductPage = () => {
   const { id } = useParams();
@@ -23,11 +24,11 @@ export const SingleProductPage = () => {
     shoppingCart,
     setShoppingCart,
   } = useProductsStore();
-  const { user } = useUserStore();
+  const { user } = NEWuseUserStore();
   const loggedIn = true;
   const [quantity, setQuantity] = useState(1);
   const [allergies, setAllergies] = useState([]);
-  console.log(allergies)
+  console.log(allergies);
 
   const addToCart = "Add to Cart"; //productLangData.add-to-cart
   const product = singleProduct?.product || {};
@@ -49,13 +50,13 @@ export const SingleProductPage = () => {
     console.log("shopping cart", shoppingCart);
   };
 
- useEffect(() => {
-   if (user) {
-     setAllergies(user.user.allergies);
-   } else {
-     setAllergies([""])
-   }
- }, [user]);
+  useEffect(() => {
+    if (user) {
+      setAllergies(user.user.allergies);
+    } else {
+      setAllergies([""]);
+    }
+  }, [user]);
 
   useEffect(() => {
     console.log("id inside useeffect:", id);

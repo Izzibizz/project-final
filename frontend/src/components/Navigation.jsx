@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import animation from "../assets/Circle-loading-Animation.json";
-import { useUserStore } from "../store/useUserStore";
+import { NEWuseUserStore } from "../store/NEWuseUserStore";
 import { WelcomeMessage } from "./WelcomeMessage";
 
 //If signed in Sign in should display username/firstname
@@ -26,10 +26,10 @@ export const Navigation = ({ data }) => {
     setAutomaticLogOut,
     loadingUser,
     logoutUser,
-  } = useUserStore();
+  } = NEWuseUserStore();
   const [open, setOpen] = useState(false);
   const [openBurger, setOpenBurger] = useState(false);
-  const [loginMessage, setLoginMessage] = useState("")
+  const [loginMessage, setLoginMessage] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const navRef = useRef();
@@ -43,7 +43,7 @@ export const Navigation = ({ data }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     await loginUser(emailInput, passwordInput);
-    console.log("loginUser:",loginUser)
+    console.log("loginUser:", loginUser);
   };
 
   const handleClickOutside = (event) => {
@@ -103,7 +103,6 @@ export const Navigation = ({ data }) => {
     }
   }, [loggedIn]);
   // add a message for user to know theyve been logged out (welcome message comp could maybe be reused? but it should have the click outside func that the login box has.. would be nice)
-
 
   const toggleLogin = () => {
     setOpen(!open);
@@ -304,7 +303,6 @@ export const Navigation = ({ data }) => {
                 ) : (
                   "Login"
                 )}
-                
               </button>
               {loginMessage ? loginMessage : "null"}
             </form>

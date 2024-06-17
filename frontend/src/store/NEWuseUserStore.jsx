@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const useUserStore = create(
+export const NEWuseUserStore = create(
   persist(
     (set, get) => ({
       user: {},
@@ -39,6 +39,7 @@ export const useUserStore = create(
       setPassword: (Input) => set({ password: Input }),
       setAllergies: (Input) => set({ allergies: Input }),
       setPros: (Input) => set({ pros: Input }),
+      setHair: (Input) => set({ hair: Input }),
       setHairShape: (Input) => set({ hairShape: Input }),
       setHairMoisture: (Input) => set({ hairMoisture: Input }),
       setSkinType: (Input) => set({ skinType: Input }),
@@ -50,11 +51,31 @@ export const useUserStore = create(
       setAutomaticLogOut: (input) => set({ automaticLogOut: input }),
 
       //Fetch functions
-      registerUser: (data) => {
-        fetch("/register", {
+      registerUser: (
+        firstName,
+        lastName,
+        email,
+        address,
+        password,
+        allergies,
+        pros,
+        hair,
+        skinType
+      ) => {
+        fetch("https://project-final-glim.onrender.com/users/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: data,
+          body: JSON.stringify({
+            firstname: firstName,
+            lastname: lastName,
+            email: email,
+            address: address,
+            password: password,
+            allergies: allergies,
+            pros: pros,
+            hair: hair,
+            skin: skinType,
+          }),
         })
           .then((response) => response.json())
           .then((data) => {
@@ -68,11 +89,14 @@ export const useUserStore = create(
           });
       },
 
-      loginUser: (data) => {
-        fetch("/login", {
+      loginUser: (email, password) => {
+        fetch("https://project-final-glim.onrender.com/users/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: data,
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
         })
           .then((response) => response.json())
           .then((data) => {

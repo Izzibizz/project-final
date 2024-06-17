@@ -7,8 +7,8 @@ import { IoIosArrowBack } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 
 import CheckoutForm from "../components/CheckoutForm";
+import { NEWuseUserStore } from "../store/NEWuseUserStore";
 import { useProductsStore } from "../store/useProductsStore";
-import { useUserStore } from "../store/useUserStore";
 
 export const ShoppingCart = () => {
   const {
@@ -18,7 +18,7 @@ export const ShoppingCart = () => {
     removeAllFromCart,
     totalPrice,
   } = useProductsStore();
-  const { user, loggedIn } = useUserStore();
+  const { user, loggedIn } = NEWuseUserStore();
   const [newQuantity, setNewQuantity] = useState(0);
   const recommended = false;
   const [checkout, setCheckout] = useState(false);
@@ -70,42 +70,43 @@ export const ShoppingCart = () => {
           <IoIosArrowBack /> Continue shopping
         </button>
       </NavLink>
-      {checkout ? <div className="flex flex-col ">
-        <div className="bg-main-white max-w-fit mx-auto max-h-80 rounded-xl p-6 desktop:p-10  gap-4 font-heading text-xs desktop:text-sm flex flex-col">
-          {loggedIn && checkout ? (
-            <div>
-              <h2 className="text-2xl mb-4">Shipping to:</h2>
-              <p className="text-lg">
-                {profile.firstname} {profile.lastname}
-              </p>
-              <p className="mt-2">{profile.address.street}</p>
-              <p>
-                {" "}
-                <span>{profile.address.postalCode}</span>
-                <span> {profile.address.city}</span>
-              </p>
-              <p>{profile.address.country}</p>
-            </div>
-          ) : null}
+      {checkout ? (
+        <div className="flex flex-col ">
+          <div className="bg-main-white max-w-fit mx-auto max-h-80 rounded-xl p-6 desktop:p-10  gap-4 font-heading text-xs desktop:text-sm flex flex-col">
+            {loggedIn && checkout ? (
+              <div>
+                <h2 className="text-2xl mb-4">Shipping to:</h2>
+                <p className="text-lg">
+                  {profile.firstname} {profile.lastname}
+                </p>
+                <p className="mt-2">{profile.address.street}</p>
+                <p>
+                  {" "}
+                  <span>{profile.address.postalCode}</span>
+                  <span> {profile.address.city}</span>
+                </p>
+                <p>{profile.address.country}</p>
+              </div>
+            ) : null}
 
-          <h3 className="text-lg desktop:text-2xl font-bold">
-            Total price:{" "}
-            <span className="bg-main-yellow rounded-xl p-2 tracking-widest">
-              {totalPrice} €
-            </span>
-          </h3>
+            <h3 className="text-lg desktop:text-2xl font-bold">
+              Total price:{" "}
+              <span className="bg-main-yellow rounded-xl p-2 tracking-widest">
+                {totalPrice} €
+              </span>
+            </h3>
+          </div>
+          <div>
+            <button
+              onClick={openCheckout}
+              className="bg-cta-blue text-text-light text-sm p-5 px-10 mt-4 laptop:text-sm rounded-full flex justify-center items-center mb-8 m-auto tablet:mb-8 tablet:ml-auto gap-2"
+            >
+              {checkout ? "Change cart" : "Checkout!"}
+            </button>
+          </div>
         </div>
-        <div>
-          <button
-            onClick={openCheckout}
-            className="bg-cta-blue text-text-light text-sm p-5 px-10 mt-4 laptop:text-sm rounded-full flex justify-center items-center mb-8 m-auto tablet:mb-8 tablet:ml-auto gap-2"
-          >
-            {checkout ? "Change cart" : "Checkout!"}
-          </button>
-        </div>
-      </div> : null} 
-        
-      
+      ) : null}
+
       {checkout ? (
         <div className="font-body text-text-light">
           <h1 className="text-2xl laptop:text-4xl laptop:mb-4 text-center">

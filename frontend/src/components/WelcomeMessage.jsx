@@ -1,15 +1,16 @@
-import { useUserStore } from "../store/useUserStore"
-import { useState } from "react"
 import Lottie from "lottie-react";
-import animation from "../assets/animation-success.json"
+import { useState } from "react";
+
+import animation from "../assets/animation-success.json";
+import { NEWuseUserStore } from "../store/NEWuseUserStore";
 
 export const WelcomeMessage = () => {
+  const { user, loggedIn, signedUp, automaticLogOut, loggedOut } =
+    NEWuseUserStore();
 
-const { user, loggedIn, signedUp, automaticLogOut, loggedOut } = useUserStore()
+  const [open, setOpen] = useState(true);
 
-const [ open, setOpen ] = useState(true)
-
-const getTitleMessage = () => {
+  const getTitleMessage = () => {
     if (loggedIn && user) return `Welcome ${user.user.firstname}`;
     if (signedUp) return "Your signup was successful";
     if (loggedOut) return "You have been logged out";
@@ -19,9 +20,11 @@ const getTitleMessage = () => {
 
   const getDescriptionMessage = () => {
     if (loggedIn) return "You have been successfully logged in";
-    if (signedUp) return "Proceed to login to see your personal recommendations";
+    if (signedUp)
+      return "Proceed to login to see your personal recommendations";
     if (loggedOut) return `See you later!`;
-    if (automaticLogOut) return "Please log in again if you want your personal recommendations";
+    if (automaticLogOut)
+      return "Please log in again if you want your personal recommendations";
     return "";
   };
 
@@ -31,7 +34,7 @@ const getTitleMessage = () => {
         <div className="font-heading text-text-light">
           <h2 className="text-xl mb-4">{getTitleMessage()}</h2>
           <p className="text-sm">{getDescriptionMessage()}</p>
-{/*           {(signedUp || automaticLogOut) && (
+          {/*           {(signedUp || automaticLogOut) && (
             <button className="bg-cta-blue my-4 px-6 py-2 rounded-full hover:bg-cta-blue-hover text-text-light">
               Log in
             </button>

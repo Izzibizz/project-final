@@ -4,13 +4,13 @@ import { Footer } from "../components/Footer";
 import { Loading } from "../components/Loading";
 import { ProductCard } from "../components/ProductCard";
 import { ShoppingCartPopup } from "../components/ShoppingCartPopup";
+import { NEWuseUserStore } from "../store/NEWuseUserStore";
 import { useProductsStore } from "../store/useProductsStore";
-import { useUserStore } from "../store/useUserStore";
 
 export const ProductsPage = () => {
   const { productsData, fetchProducts, loadingProduct, addedProduct } =
     useProductsStore();
-  const { loggedIn, user } = useUserStore();
+  const { loggedIn, user } = NEWuseUserStore();
   const [categoryValue, setCategoryValue] = useState("category");
   const [sortValue, setSortValue] = useState("sort");
   const [filterValue, setFilterValue] = useState("filter");

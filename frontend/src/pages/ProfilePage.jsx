@@ -8,7 +8,7 @@ import { WelcomeMessage } from "../components/WelcomeMessage";
 // User needs to be logged in to see Profile page,
 // send user to Log in/ Sign up if not logged in.
 
-import { useUserStore } from "../store/useUserStore";
+import { NEWuseUserStore } from "../store/NEWuseUserStore";
 import { NotFound } from "./NotFound";
 
 export const ProfilePage = () => {
@@ -20,7 +20,7 @@ export const ProfilePage = () => {
     loggedOut,
     accessToken,
     deleteUser,
-  } = useUserStore();
+  } = NEWuseUserStore();
 
   const { userId } = useParams();
   const navigate = useNavigate();
