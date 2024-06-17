@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import animation from "../assets/Circle-loading-Animation.json";
 import { Footer } from "../components/Footer";
-import { NEWuseUserStore } from "../store/NEWuseUserStore";
+import { useUserStore } from "../store/useUserStore";
 
 export const SignUpPage = () => {
   const {
@@ -33,7 +33,7 @@ export const SignUpPage = () => {
     signedUp,
     loggedIn,
     setSignedUp,
-  } = NEWuseUserStore();
+  } = useUserStore();
   const [activeSection, setActiveSection] = useState("sectionone");
 
   const [isPassword, setIsPassword] = useState(false);

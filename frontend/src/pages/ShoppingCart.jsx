@@ -7,7 +7,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 
 import CheckoutForm from "../components/CheckoutForm";
-import { NEWuseUserStore } from "../store/NEWuseUserStore";
+import { useUserStore } from "../store/useUserStore";
 import { useProductsStore } from "../store/useProductsStore";
 
 export const ShoppingCart = () => {
@@ -18,7 +18,7 @@ export const ShoppingCart = () => {
     removeAllFromCart,
     totalPrice,
   } = useProductsStore();
-  const { user, loggedIn } = NEWuseUserStore();
+  const { user, loggedIn } = useUserStore();
   const [newQuantity, setNewQuantity] = useState(0);
   const recommended = false;
   const [checkout, setCheckout] = useState(false);

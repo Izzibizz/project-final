@@ -2,10 +2,10 @@ import heroImage from "/hero-image.png";
 import swoop from "/hero-swoop.svg";
 import { NavLink } from "react-router-dom";
 
-import { NEWuseUserStore } from "../store/NEWuseUserStore";
+import { useUserStore } from "../store/useUserStore";
 
 export const Hero = ({ data }) => {
-  const { loggedIn, user, fetchUser } = NEWuseUserStore();
+  const { loggedIn, user, fetchUser } = useUserStore();
 
   return (
     <section className="relative  min-h-[400px] max-h-full">

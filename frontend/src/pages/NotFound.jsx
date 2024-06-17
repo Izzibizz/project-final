@@ -1,9 +1,9 @@
 import { Footer } from "../components/Footer";
 import { Loading } from "../components/Loading";
-import { NEWuseUserStore } from "../store/NEWuseUserStore";
+import { useUserStore } from "../store/useUserStore";
 
 export const NotFound = ({ reason }) => {
-  const { user } = NEWuseUserStore();
+  const { user } = useUserStore();
 
   console.log(reason);
   console.log(user);

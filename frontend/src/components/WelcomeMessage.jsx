@@ -2,11 +2,11 @@ import Lottie from "lottie-react";
 import { useState } from "react";
 
 import animation from "../assets/animation-success.json";
-import { NEWuseUserStore } from "../store/NEWuseUserStore";
+import { useUserStore } from "../store/useUserStore";
 
 export const WelcomeMessage = () => {
   const { user, loggedIn, signedUp, automaticLogOut, loggedOut } =
-    NEWuseUserStore();
+    useUserStore();
 
   const [open, setOpen] = useState(true);
 

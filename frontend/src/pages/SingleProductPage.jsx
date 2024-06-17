@@ -12,7 +12,7 @@ import { Loading } from "../components/Loading";
 import { ReviewForm } from "../components/ReviewForm";
 import { ShoppingCartPopup } from "../components/ShoppingCartPopup";
 import SimilarProducts from "../components/SimilarProducts";
-import { NEWuseUserStore } from "../store/NEWuseUserStore";
+import { useUserStore } from "../store/useUserStore";
 import { useProductsStore } from "../store/useProductsStore";
 
 export const SingleProductPage = () => {
@@ -24,7 +24,7 @@ export const SingleProductPage = () => {
     shoppingCart,
     setShoppingCart,
   } = useProductsStore();
-  const { user } = NEWuseUserStore();
+  const { user } = useUserStore();
   const loggedIn = true;
   const [quantity, setQuantity] = useState(1);
   const [allergies, setAllergies] = useState([]);

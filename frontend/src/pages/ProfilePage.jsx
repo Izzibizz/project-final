@@ -8,19 +8,19 @@ import { WelcomeMessage } from "../components/WelcomeMessage";
 // User needs to be logged in to see Profile page,
 // send user to Log in/ Sign up if not logged in.
 
-import { NEWuseUserStore } from "../store/NEWuseUserStore";
+import { useUserStore } from "../store/useUserStore";
 import { NotFound } from "./NotFound";
 
 export const ProfilePage = () => {
   const {
     user,
     logoutUser,
-    fetchUserProfile,
+    fetchUser,
     updateUser,
     loggedOut,
     accessToken,
     deleteUser,
-  } = NEWuseUserStore();
+  } = useUserStore();
 
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -59,13 +59,13 @@ export const ProfilePage = () => {
   });
 
   useEffect(() => {
-    const fetchUserProfileAround = async () => {
+    const fetchUserProfile = async () => {
       if (!user || !userId || !accessToken) {
         console.error("User, userId, or accessToken is missing");
         return;
       }
 
-      const response = await fetchUserProfile(userId);
+      const response = await fetchUser(userId);
       if (response && response.message) {
         setProfile(response.updatedUser);
       }
@@ -73,9 +73,9 @@ export const ProfilePage = () => {
     if (!user) {
       navigate("/");
     } else {
-      fetchUserProfileAround();
+      fetchUserProfile();
     }
-  }, [user, userId, fetchUserProfile, navigate, accessToken]);
+  }, [user, userId, fetchUser, navigate, accessToken]);
 
   // Update user profile
   /* useEffect(() => {

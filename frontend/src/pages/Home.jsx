@@ -7,7 +7,7 @@ import { ReviewCard } from "../components/ReviewCard";
 import { ShoppingCartPopup } from "../components/ShoppingCartPopup";
 import { Statements } from "../components/Statements";
 import { WelcomeMessage } from "../components/WelcomeMessage";
-import { NEWuseUserStore } from "../store/NEWuseUserStore";
+import { useUserStore } from "../store/useUserStore";
 
 export const Home = ({ data }) => {
   const {
@@ -17,7 +17,7 @@ export const Home = ({ data }) => {
     setLoggedOut,
     automaticLogOut,
     setAutomaticLogOut,
-  } = NEWuseUserStore();
+  } = useUserStore();
 
   useEffect(() => {
     if (signedUp) {

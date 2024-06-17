@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import animation from "../assets/Circle-loading-Animation.json";
-import { NEWuseUserStore } from "../store/NEWuseUserStore";
+import { useUserStore } from "../store/useUserStore";
 import { WelcomeMessage } from "./WelcomeMessage";
 
 //If signed in Sign in should display username/firstname
@@ -26,7 +26,7 @@ export const Navigation = ({ data }) => {
     setAutomaticLogOut,
     loadingUser,
     logoutUser,
-  } = NEWuseUserStore();
+  } = useUserStore();
   const [open, setOpen] = useState(false);
   const [openBurger, setOpenBurger] = useState(false);
   const [loginMessage, setLoginMessage] = useState("");
