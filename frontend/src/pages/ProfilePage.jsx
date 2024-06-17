@@ -15,7 +15,7 @@ export const ProfilePage = () => {
   const {
     user,
     logoutUser,
-    fetchUser,
+    fetchUserProfile,
     updateUser,
     loggedOut,
     accessToken,
@@ -59,13 +59,13 @@ export const ProfilePage = () => {
   });
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchUserProfileAround = async () => {
       if (!user || !userId || !accessToken) {
         console.error("User, userId, or accessToken is missing");
         return;
       }
 
-      const response = await fetchUser(userId);
+      const response = await fetchUserProfile(userId);
       if (response && response.message) {
         setProfile(response.updatedUser);
       }
@@ -73,9 +73,9 @@ export const ProfilePage = () => {
     if (!user) {
       navigate("/");
     } else {
-      fetchUserProfile();
+      fetchUserProfileAround();
     }
-  }, [user, userId, fetchUser, navigate, accessToken]);
+  }, [user, userId, fetchUserProfile, navigate, accessToken]);
 
   // Update user profile
   /* useEffect(() => {

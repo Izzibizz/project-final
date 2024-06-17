@@ -81,7 +81,33 @@ export const NEWuseUserStore = create(
           .then((data) => {
             console.log(data);
             if (data.accessToken) {
+              set({
+                ...state,
+                signedUp: true,
+                user: { ...state.user, accessToken: data.accessToken },
+              });
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      },
+
+      fetchUserProfile: (id, accessToken) => {
+        fetch(`https://project-final-glim.onrender.com/users/profile/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: accessToken,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            if (data.user) {
+              set({ User: data.user });
               set({ accessToken: data.accessToken });
+              /* set({ userId: id }); */
             }
           })
           .catch((error) => {
@@ -102,12 +128,16 @@ export const NEWuseUserStore = create(
           .then((data) => {
             console.log(data);
             if (data.accessToken) {
-              set({ accessToken: data.accessToken });
-              setSignedUp(true);
-              setShowWelcomePopup(false);
+              set({
+                ...state,
+                loggedIn: true,
+                user: { ...state.user, accessToken: data.accessToken },
+              });
+              fetchUserProfile(data.id, data.accessToken);
+              set({ showWelcomePopup: true });
               setTimeout(() => {
                 automaticLogOut(true);
-              }, 3600000); //1 hour
+              }, 360000); //1 hour
             }
           })
           .catch((error) => {
@@ -115,29 +145,15 @@ export const NEWuseUserStore = create(
           });
       },
 
-      fetchUserProfile: (id) => {
-        fetch(`/profile/${id}`, {
-          method: "GET",
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            if (data.user) {
-              setUser(data.user);
-              setUserid(id);
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      },
-
-      updateUserProfile: (id, data) => {
-        fetch(`/profile/${id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: data,
-        })
+      updateUserProfile: (userId, data) => {
+        fetch(
+          `https://project-final-glim.onrender.com/users/profile/${userId}`,
+          {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: data,
+          }
+        )
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
@@ -151,9 +167,12 @@ export const NEWuseUserStore = create(
       },
 
       deleteUserProfile: (id) => {
-        fetch(`/profile/${id}`, {
-          method: "DELETE",
-        })
+        fetch(
+          `https://project-final-glim.onrender.com/users/profile/${userId}`,
+          {
+            method: "DELETE",
+          }
+        )
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
