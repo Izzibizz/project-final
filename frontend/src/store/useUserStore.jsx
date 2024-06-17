@@ -50,6 +50,7 @@ export const useUserStore = create(
       setShowWelcomePopup: (input) => set({ showWelcomePopup: input }),
       setLoggedOut: (input) => set({ loggedOut: input }),
       setAutomaticLogOut: (input) => set({ automaticLogOut: input }),
+      setAccessToken: (token) => set({ accessToken: token }),
 
       //Register user
       registerUser: async (
@@ -114,10 +115,13 @@ export const useUserStore = create(
           });
 
           if (!response.ok) {
-            throw new Error("Could not fetch user");
+            const errorText = await response.text(); // Get the error message
+            throw new Error(errorText);
+
+            /*  throw new Error("Could not fetch user"); */
           }
-          const data = await response.json();
-          console.log(data);
+          const { data } = await response.json();
+          console.log("Data from the fetch", data);
           set({
             user: data,
             loggedIn: true,

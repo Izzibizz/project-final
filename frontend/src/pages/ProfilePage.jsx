@@ -24,7 +24,24 @@ export const ProfilePage = () => {
 
   const { userId } = useParams();
   const navigate = useNavigate();
-  const [profile, setProfile] = useState(user.user);
+  const [profile, setProfile] = useState({
+    address: {
+      street: "",
+      postalCode: "",
+      city: "",
+      country: "",
+    },
+    firstname: "",
+    lastname: "",
+    email: "",
+    skin: "",
+    hair: {
+      shape: "",
+      moisture: "",
+    },
+    allergies: [],
+    pros: [],
+  });
   const [isEditing, setIsEditing] = useState(false);
   const [inputValues, setInputValues] = useState({
     firstname: profile.firstname,
@@ -41,8 +58,13 @@ export const ProfilePage = () => {
     pros: profile.pros,
   });
 
-  /* useEffect(() => {
+  useEffect(() => {
     const fetchUserProfile = async () => {
+      if (!user || !userId || !accessToken) {
+        console.error("User, userId, or accessToken is missing");
+        return;
+      }
+
       const response = await fetchUser(userId);
       if (response && response.message) {
         setProfile(response.updatedUser);
@@ -53,7 +75,7 @@ export const ProfilePage = () => {
     } else {
       fetchUserProfile();
     }
-  }, [user, userId, fetchUser, navigate]); */
+  }, [user, userId, fetchUser, navigate, accessToken]);
 
   // Update user profile
   /* useEffect(() => {

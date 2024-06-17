@@ -1,10 +1,11 @@
+import { useEffect, useMemo, useState } from "react";
+
+import { Footer } from "../components/Footer";
+import { Loading } from "../components/Loading";
+import { ProductCard } from "../components/ProductCard";
+import { ShoppingCartPopup } from "../components/ShoppingCartPopup";
 import { useProductsStore } from "../store/useProductsStore";
 import { useUserStore } from "../store/useUserStore";
-import { useEffect, useState, useMemo } from "react";
-import { ProductCard } from "../components/ProductCard";
-import { Loading } from "../components/Loading";
-import { Footer } from "../components/Footer";
-import { ShoppingCartPopup } from "../components/ShoppingCartPopup";
 
 export const ProductsPage = () => {
   const { productsData, fetchProducts, loadingProduct, addedProduct } =
@@ -14,7 +15,7 @@ export const ProductsPage = () => {
   const [sortValue, setSortValue] = useState("sort");
   const [filterValue, setFilterValue] = useState("filter");
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const profile = user.user;
+  const profile = user;
 
   const handleSortChange = (e) => {
     setSortValue(e.target.value);
