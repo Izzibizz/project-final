@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 
@@ -24,35 +24,25 @@ export const ProfilePage = () => {
 
   const { userId } = useParams();
   const navigate = useNavigate();
-  const [profile, setProfile] = useState(user.user);
-
-  // useEffect(() => {
-  //   // Fetch the user profile using the userId
-  //   const fetchUserProfile = async () => {
-  //     if (!user) {
-  //       navigate("/");
-  //     } else {
-
-  //     }
-  //   };
-
-  //   fetchUserProfile();
-  // }, [userId, fetchUser, navigate]);
-
-  useEffect(() => {
-    if (loggedOut) {
-      navigate("/");
-    }
-  }, [loggedOut, navigate]);
-
-  if (!profile) {
-    return <NotFound reason="profile" />;
-  }
-
-  console.log("Profile:", userId);
-
+  const [profile, setProfile] = useState({
+    address: {
+      street: "",
+      postalCode: "",
+      city: "",
+      country: "",
+    },
+    firstname: "",
+    lastname: "",
+    email: "",
+    skin: "",
+    hair: {
+      shape: "",
+      moisture: "",
+    },
+    allergies: [],
+    pros: [],
+  });
   const [isEditing, setIsEditing] = useState(false);
-
   const [inputValues, setInputValues] = useState({
     firstname: profile.firstname,
     lastname: profile.lastname,
@@ -67,6 +57,44 @@ export const ProfilePage = () => {
     allergies: profile.allergies,
     pros: profile.pros,
   });
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (!user || !userId || !accessToken) {
+        console.error("User, userId, or accessToken is missing");
+        return;
+      }
+
+      const response = await fetchUser(userId, accessToken);
+      if (response && response.message) {
+        setProfile(response.updatedUser);
+      }
+    };
+    if (!user) {
+      navigate("/");
+    } else {
+      fetchUserProfile();
+    }
+  }, [user, userId, fetchUser, navigate, accessToken]);
+
+  // Update user profile
+  /* useEffect(() => {
+    if (user) {
+      updateUser(user.id, { accessToken }); // Pass the accessToken here
+    }
+  }, [user]); */
+
+  useEffect(() => {
+    if (loggedOut) {
+      navigate("/");
+    }
+  }, [loggedOut, navigate]);
+
+  if (!profile) {
+    return <NotFound reason="profile" />;
+  }
+
+  console.log("Profile:", userId);
 
   const allergyOptions = [
     "Fragrances",
@@ -108,7 +136,7 @@ export const ProfilePage = () => {
     }
   };
 
-  const handleUpdateProfile = () => {
+  const handleUpdateProfile = async () => {
     // Filter out unchanged fields
     const updatedFields = Object.keys(inputValues).reduce((acc, key) => {
       if (inputValues[key] !== profile[key]) {
@@ -117,14 +145,20 @@ export const ProfilePage = () => {
       return acc;
     }, {});
 
+    console.log("Updated Fields", updatedFields); // <--- Inspect the updatedFields object here
+
     // Make update request with updatedFields
     updateUser(userId, accessToken, updatedFields);
   };
 
-  const handleDeletingUser = () => {
-    deleteUser(userId, accessToken);
+  const handleDeletingUser = async () => {
+    try {
+      await deleteUser();
+      // Navigate to the root URL
+    } catch (error) {
+      console.error(error);
+    }
   };
-
   useEffect(() => {
     if (loggedOut) {
       navigate("/");
@@ -479,7 +513,7 @@ export const ProfilePage = () => {
                 )}
               </ul>
             </div>
-            <div className="bg-main-white  w-full p-4 pl-6 text-text-dark rounded-xl">
+            <div className="bg-main-white  w-full p-4 pl-6 text-text-dark rounded-xl mb-6">
               <h4 className="font-bold">Email:</h4>
               {isEditing ? (
                 <form>
