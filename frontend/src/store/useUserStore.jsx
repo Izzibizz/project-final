@@ -132,6 +132,7 @@ export const useUserStore = create(
           set({ error: error });
         } finally {
           set({ loadingUser: false });
+          set({ showWelcomePopup: false });
         }
       },
 
@@ -157,7 +158,7 @@ export const useUserStore = create(
               userId: data.id,
               accessToken: data.accessToken,
             });
-            await get().fetchUser(data.id, data.accessToken);
+            await get().fetchUser(data.id, get().accessToken);
           }
         } catch (error) {
           console.error("error in login:", error);

@@ -11,7 +11,7 @@ export const WelcomeMessage = () => {
   const [open, setOpen] = useState(true);
 
   const getTitleMessage = () => {
-    if (loggedIn && user) return `Welcome ${user.user.firstname}`;
+    if (loggedIn && user) return `Welcome ${user.firstname}`;
     if (signedUp) return "Your signup was successful";
     if (loggedOut) return "You have been logged out";
     if (automaticLogOut) return "You have been automatically logged out";

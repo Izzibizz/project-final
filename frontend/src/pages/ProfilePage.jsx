@@ -65,7 +65,7 @@ export const ProfilePage = () => {
         return;
       }
 
-      const response = await fetchUser(userId);
+      const response = await fetchUser(userId, accessToken);
       if (response && response.message) {
         setProfile(response.updatedUser);
       }

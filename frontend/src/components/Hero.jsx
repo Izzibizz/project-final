@@ -6,6 +6,7 @@ import { useUserStore } from "../store/useUserStore";
 
 export const Hero = ({ data }) => {
   const { loggedIn, user, fetchUser } = useUserStore();
+  console.log(user);
 
   return (
     <section className="relative  min-h-[400px] max-h-full">
@@ -40,7 +41,7 @@ export const Hero = ({ data }) => {
             <p className="py-4 text-xl tablet:text-2xl laptop:text-4xl">
               {data.ctaTextLoggedIn}
               <span className="text-2xl tablet:text-4xl font-black">
-                {user.firstname}
+                {/*  {user.firstname} */}
               </span>
             </p>
             <NavLink to="/products">
