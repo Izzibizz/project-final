@@ -121,7 +121,6 @@ export const useUserStore = create(
           set({
             user: data,
             loggedIn: true,
-            showWelcomePopup: true,
           });
         } catch (error) {
           console.error("error:", error);
@@ -152,6 +151,7 @@ export const useUserStore = create(
             set({
               userId: data.id,
               accessToken: data.accessToken,
+              showWelcomePopup: true,
             });
             await get().fetchUser(data.id, data.accessToken);
           }
@@ -160,29 +160,29 @@ export const useUserStore = create(
           set({ error: error });
         } finally {
           /*  fetchUser(userId, accessToken); */
-          set({ loadingUser: false });
+          set({ loadingUser: false, showWelcomePopup: false });
         }
       },
 
-      updateUser: async (userId, accessToken, updatedFields) => {
+      updateUser: async (userId, accessToken, inputValues) => {
         /* set({ loadingUser: true }); */
         const URL = `https://project-final-glim.onrender.com/users/profile/${userId}`;
-        console.log("Updated Fields", updatedFields);
+        console.log("Updated Fields", inputValues);
         try {
           const response = await fetch(URL, {
             method: "PATCH",
             body: JSON.stringify({
-              firstname: updatedFields.firstname,
-              lastname: updatedFields.lastname,
-              email: updatedFields.email,
-              /* street: updatedFields.street, */
-              /*postalCode: updatedFields.postalCode,
-              city: updatedFields.city,
-              country: updatedFields.country,
-              allergies: updatedFields.allergies,
-              pros: updatedFields.pros,
-              moisture: updatedFields.moisture,
-              skin: updatedFields.skin, */
+              firstname: inputValues.firstname,
+              lastname: inputValues.lastname,
+              email: inputValues.email,
+              street: inputValues.street,
+              postalCode: inputValues.postalCode,
+              city: inputValues.city,
+              country: inputValues.country,
+              allergies: inputValues.allergies,
+              pros: inputValues.pros,
+              moisture: inputValues.moisture,
+              skin: inputValues.skin,
             }),
             headers: {
               "Content-Type": "application/json",

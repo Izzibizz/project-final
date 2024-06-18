@@ -24,7 +24,8 @@ export const ProfilePage = () => {
 
   const { userId } = useParams();
   const navigate = useNavigate();
-  const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState(user.user);
+  /*   const [profile, setProfile] = useState({
     address: {
       street: "",
       postalCode: "",
@@ -41,7 +42,7 @@ export const ProfilePage = () => {
     },
     allergies: [],
     pros: [],
-  });
+  }); */
   const [isEditing, setIsEditing] = useState(false);
   const [inputValues, setInputValues] = useState({
     firstname: profile.firstname,
@@ -58,7 +59,9 @@ export const ProfilePage = () => {
     pros: profile.pros,
   });
 
-  useEffect(() => {
+  console.log(profile);
+
+  /*  useEffect(() => {
     const fetchUserProfile = async () => {
       if (!user || !userId || !accessToken) {
         console.error("User, userId, or accessToken is missing");
@@ -75,8 +78,17 @@ export const ProfilePage = () => {
     } else {
       fetchUserProfile();
     }
-  }, [user, userId, fetchUser, navigate, accessToken]);
+    console.log(profile);
 
+
+  }, [, , /* user */ /* userId */ /* fetchUser, navigate, accessToken]);  */
+
+  /* useEffect(() => {
+    const response = fetchUser(userId, accessToken);
+    setProfile(response.updatedUser);
+  }, []); */
+
+  console.log(profile);
   // Update user profile
   /* useEffect(() => {
     if (user) {
@@ -91,7 +103,7 @@ export const ProfilePage = () => {
   }, [loggedOut, navigate]);
 
   if (!profile) {
-    return <NotFound reason="profile" />;
+    <NotFound reason="profile" />;
   }
 
   console.log("Profile:", userId);
@@ -116,7 +128,7 @@ export const ProfilePage = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleInputChange = (e) => {
+  /*  const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
       // Initialize inputValues[name] as an array if it's undefined
@@ -134,22 +146,33 @@ export const ProfilePage = () => {
         [name]: value,
       });
     }
+  }; */
+  const handleInputChange = (event) => {
+    setInputValues({
+      ...inputValues,
+      [event.target.name]: event.target.value,
+    });
   };
 
+  const handleUpdateProfile = () => {
+    updateUser(inputValues, userId, accessToken);
+    setIsEditing(false);
+  };
+  /* 
   const handleUpdateProfile = async () => {
     // Filter out unchanged fields
     const updatedFields = Object.keys(inputValues).reduce((acc, key) => {
       if (inputValues[key] !== profile[key]) {
         acc[key] = inputValues[key];
-      }
+      } 
       return acc;
-    }, {});
-
+    }, {}); */
+  /* 
     console.log("Updated Fields", updatedFields); // <--- Inspect the updatedFields object here
 
     // Make update request with updatedFields
     updateUser(userId, accessToken, updatedFields);
-  };
+  }; */
 
   const handleDeletingUser = async () => {
     try {
