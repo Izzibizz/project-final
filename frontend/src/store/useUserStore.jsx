@@ -120,12 +120,12 @@ export const useUserStore = create(
           console.log(data);
           set({
             user: data,
-            loggedIn: true,
-            showWelcomePopup: true,
           });
+              return { success: true, user: data };
         } catch (error) {
           console.error("error:", error);
           set({ error: error });
+              return { success: false, message: error.message };
         } finally {
           set({ loadingUser: false });
         }
@@ -152,6 +152,8 @@ export const useUserStore = create(
             set({
               userId: data.id,
               accessToken: data.accessToken,
+              loggedIn: true,
+              showWelcomePopup: true,
             });
             await get().fetchUser(data.id, data.accessToken);
           }
@@ -175,14 +177,19 @@ export const useUserStore = create(
               firstname: updatedFields.firstname,
               lastname: updatedFields.lastname,
               email: updatedFields.email,
-              /* street: updatedFields.street, */
-              /*postalCode: updatedFields.postalCode,
-              city: updatedFields.city,
-              country: updatedFields.country,
+              address: {
+                street: updatedFields.address.street,
+                postalCode: updatedFields.address.postalCode,
+                city: updatedFields.address.city,
+                country: updatedFields.address.country,
+              },
               allergies: updatedFields.allergies,
               pros: updatedFields.pros,
-              moisture: updatedFields.moisture,
-              skin: updatedFields.skin, */
+              hair: {
+                moisture: updatedFields.hair.moisture,
+                shape: updatedFields.hair.shape,
+              },
+              skin: updatedFields.skin,
             }),
             headers: {
               "Content-Type": "application/json",

@@ -218,7 +218,7 @@ export const SingleProductPage = () => {
       {allergyAlert?.length > 0 && (
         <div className="flex items-center gap-2 mb-4">
           <ImCross className="w-4 h-4" />
-          <h3 className="font-black text-base text-sm laptop:text-base">
+          <h3 className="font-black text-sm laptop:text-base">
             Not recommended for you
           </h3>
         </div>
