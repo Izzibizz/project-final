@@ -369,7 +369,9 @@ export const ProfilePage = () => {
                             <input
                               type="checkbox"
                               value={option.toLowerCase()}
-                              checked={allergies.includes(option.toLowerCase())}
+                              checked={profile.allergies.includes(
+                                option.toLowerCase()
+                              )}
                               onChange={handleInputChange}
                               // checked={inputValues.allergies}
                             />
