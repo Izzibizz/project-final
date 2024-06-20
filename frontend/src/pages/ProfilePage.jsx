@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 
@@ -54,6 +54,9 @@ export const ProfilePage = () => {
       fetchUserProfile();
     }
   }, [isEditing, userId]);
+
+  const [allergies, setAllergies] = useState(profile.allergies);
+  const [pros, setPros] = useState(profile.pros);
 
   // const [inputValues, setInputValues] = useState({
   //   firstname: profile.firstname,
@@ -114,10 +117,14 @@ export const ProfilePage = () => {
           ? [...tempObject[name], value]
           : tempObject[name].filter((item) => item !== value);
         tempObject = { ...tempObject, [name]: updatedArray };
-      } else if (name === "skin") {
-        tempObject = { ...tempObject, skin: value }; // Directly update skin type
-      } else {
-        // Handle other checkboxes or input types if necessary
+        /* } else if (name === "skin") {
+        tempObject = { ...tempObject, skin: value }; // Directly update skin type */
+        if (name === "allergies") {
+          setAllergies(updatedArray);
+          console.log();
+        } else if (name === "pros") {
+          setPros(updatedArray);
+        }
       }
     } else if (["street", "postalCode", "city", "country"].includes(name)) {
       tempObject = {
@@ -362,9 +369,7 @@ export const ProfilePage = () => {
                             <input
                               type="checkbox"
                               value={option.toLowerCase()}
-                              checked={profile.allergies.includes(
-                                option.toLowerCase()
-                              )}
+                              checked={allergies.includes(option.toLowerCase())}
                               onChange={handleInputChange}
                               // checked={inputValues.allergies}
                             />
